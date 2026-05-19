@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Hazrat Bilal — Full Stack Developer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root{
+  --bg:#0f1117;
+  --surface:#161b27;
+  --card:#1e2535;
+  --border:#2a3347;
+  --green:#10b981;
+  --blue:#3b82f6;
+  --text:#e2e8f0;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+}
+*{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;}
+
+/* Utility */
+.gradient-text{background:linear-gradient(135deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;}
+.glass{background:rgba(30,37,53,0.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.07);border-radius:10px;}
+
+/* Buttons */
+.btn-primary{background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:10px 22px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:transform .2s,box-shadow .2s;border:none;cursor:pointer;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(16,185,129,0.3);}
+.btn-outline{border:1px solid var(--border);color:var(--text);padding:10px 22px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:all .2s;background:transparent;cursor:pointer;}
+.btn-outline:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px);}
+
+/* Badges */
+.badge-green{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#6ee7b7;padding:5px 13px;border-radius:20px;font-size:13px;font-weight:500;}
+.badge-blue{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);color:#93c5fd;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;}
+
+/* Nav */
+nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(15,17,23,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;}
+.nav-link:hover{color:var(--green);}
+
+/* Sections */
+.section{padding:80px 20px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-title{font-size:28px;font-weight:700;margin-bottom:6px;}
+.section-sub{color:var(--muted);font-size:15px;margin-bottom:40px;}
+
+/* Terminal */
+.terminal{background:#0d1117;border:1px solid #30363d;border-radius:10px;padding:20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.8;}
+.t-green{color:#3fb950;} .t-blue{color:#58a6ff;} .t-yellow{color:#d29922;} .t-muted{color:#8b949e;}
+
+/* Project cards */
+.proj-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s,transform .2s;}
+.proj-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 8px 30px rgba(16,185,129,0.08);}
+.proj-icon-wrap{height:130px;display:flex;align-items:center;justify-content:center;}
+
+/* GitHub repo cards */
+.repo-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;transition:border-color .2s,transform .2s;}
+.repo-card:hover{border-color:var(--green);transform:translateY(-2px);}
+
+/* Achievement cards */
+.ach-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;transition:border-color .2s;}
+.ach-card:hover{border-color:var(--green);}
+
+/* Timeline */
+.tl-dot{width:12px;height:12px;background:var(--green);border-radius:50%;border:2px solid var(--bg);flex-shrink:0;margin-top:5px;}
+.tl-dot.blue{background:var(--blue);}
+.tl-line{width:2px;background:linear-gradient(to bottom,var(--green),transparent);flex:1;margin-left:5px;}
+
+/* Form inputs */
+input,textarea{background:rgba(30,37,53,0.8);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:12px 14px;width:100%;font-size:14px;outline:none;transition:border-color .2s;}
+input:focus,textarea:focus{border-color:var(--green);}
+
+/* Loader */
+.loader{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin:20px auto;}
+
+/* Scroll fade */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s;}
+.fade-in.visible{opacity:1;transform:none;}
+
+/* Mobile menu */
+.mob-menu{display:none;position:fixed;top:56px;left:0;right:0;background:rgba(15,17,23,0.97);border-bottom:1px solid var(--border);padding:16px;z-index:998;flex-direction:column;gap:12px;}
+.mob-menu.open{display:flex;}
+
+/* Social icon button */
+.social-btn{width:44px;height:44px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;text-decoration:none;color:var(--muted);transition:color .2s,border-color .2s;}
+.social-btn:hover{color:var(--green);border-color:var(--green);}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+@media(max-width:768px){
+  #nav-links{display:none!important;}
+  #mob-btn{display:block!important;}
+  .two-col{grid-template-columns:1fr!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" style="font-weight:700;font-size:18px;text-decoration:none;" class="gradient-text">HB.</a>
+    <div id="nav-links" style="display:flex;gap:28px;">
+      <a class="nav-link" href="#about">About</a>
+      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#experience">Experience</a>
+      <a class="nav-link" href="#projects">Projects</a>
+      <a class="nav-link" href="#github">GitHub</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </div>
+            <a href="mailto:hazratbilalhb315471@gmail.com" class="btn-primary" style="padding:7px 16px;font-size:13px;" title="hazratbilalhb315471@gmail.com">Hire Me</a>
+    <button id="mob-btn" onclick="toggleMenu()" style="display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mob-menu">
+  <a class="nav-link" href="#about" onclick="closeMenu()">About</a>
+  <a class="nav-link" href="#skills" onclick="closeMenu()">Skills</a>
+  <a class="nav-link" href="#experience" onclick="closeMenu()">Experience</a>
+  <a class="nav-link" href="#projects" onclick="closeMenu()">Projects</a>
+  <a class="nav-link" href="#github" onclick="closeMenu()">GitHub</a>
+  <a class="nav-link" href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section style="min-height:100vh;display:flex;align-items:center;padding:80px 20px 40px;">
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%;" class="two-col">
+
+    <!-- Left -->
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);padding:6px 14px;border-radius:20px;margin-bottom:20px;">
+        <span style="width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;"></span>
+        <span style="font-size:13px;color:#6ee7b7;font-weight:500;">Open to opportunities</span>
+      </div>
+      <h1 style="font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1.1;margin-bottom:10px;">Hazrat Bilal</h1>
+      <h2 style="font-size:clamp(15px,2.5vw,21px);font-weight:500;margin-bottom:20px;" class="gradient-text">Software Engineering Student & Full Stack Developer</h2>
+      <p style="color:var(--muted2);font-size:15px;line-height:1.75;margin-bottom:30px;">I build practical web applications focused on real-world business problems, scalable systems, and modern user experiences.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;">
+        <a href="#projects" class="btn-primary"><i class="fas fa-rocket"></i> View Projects</a>
+        <a href="#contact" class="btn-outline"><i class="fas fa-envelope"></i> Contact Me</a>
+        <a href="mailto:hazratbilalhb315471@gmail.com" class="btn-outline"><i class="fas fa-download"></i> Download CV</a>
+      </div>
+      <div style="display:flex;gap:14px;">
+        <a class="social-btn" href="https://github.com/perbilal" target="_blank"><i class="fab fa-github"></i></a>
+        <a class="social-btn" href="https://www.linkedin.com/in/hazrat-bilal-780288296/" target="_blank" style="--hover:#3b82f6;"><i class="fab fa-linkedin"></i></a>
+        <a class="social-btn" href="mailto:hazratbilalhb315471@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div>
+      <div class="terminal" style="margin-bottom:12px;">
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+          <span style="width:11px;height:11px;background:#ff5f56;border-radius:50%;"></span>
+          <span style="width:11px;height:11px;background:#febc2e;border-radius:50%;"></span>
+          <span style="width:11px;height:11px;background:#27c93f;border-radius:50%;"></span>
+          <span style="margin-left:8px;color:#8b949e;font-size:12px;">~/hazrat-bilal — zsh</span>
+        </div>
+        <div id="term-out"></div>
+        <span style="display:inline-block;width:8px;height:14px;background:#3fb950;animation:blink 1s infinite;vertical-align:middle;"></span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="glass" style="padding:14px;text-align:center;">
+          <div style="font-size:22px;font-weight:700;color:var(--green);">3+</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Real Projects</div>
+        </div>
+        <div class="glass" style="padding:14px;text-align:center;">
+          <div style="font-size:22px;font-weight:700;color:var(--blue);">3.20</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">CGPA — SZABIST</div>
+        </div>
+        <div class="glass" style="padding:14px;text-align:center;">
+          <div style="font-size:22px;font-weight:700;color:var(--green);">1+</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Internship</div>
+        </div>
+        <div class="glass" style="padding:14px;text-align:center;">
+          <div style="font-size:22px;font-weight:700;color:var(--blue);">5+</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Technologies</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section fade-in" style="background:var(--surface);">
+  <div class="section-inner">
+    <div class="section-title">About <span class="gradient-text">Me</span></div>
+    <div class="section-sub">Who I am and what drives me</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;" class="two-col">
+      <div>
+        <p style="color:var(--muted2);font-size:15px;line-height:1.8;margin-bottom:16px;">I'm <strong style="color:var(--text);">Hazrat Bilal</strong>, a Software Engineering student at SZABIST University, Islamabad, passionate about building real-world systems that solve genuine business problems.</p>
+        <p style="color:var(--muted2);font-size:15px;line-height:1.8;margin-bottom:16px;">My work spans full-stack web development, database design, and building production-grade applications. I enjoy turning complex problems into clean, scalable software.</p>
+        <p style="color:var(--muted2);font-size:15px;line-height:1.8;margin-bottom:24px;">I believe in continuous learning and writing clean code. My internship experience gave me real-world exposure to collaborative, production-level development.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="badge-green"><i class="fas fa-map-marker-alt" style="font-size:11px;margin-right:5px;"></i>Islamabad, Pakistan</span>
+          <span class="badge-green"><i class="fas fa-graduation-cap" style="font-size:11px;margin-right:5px;"></i>SZABIST University</span>
+          <span class="badge-green"><i class="fas fa-briefcase" style="font-size:11px;margin-right:5px;"></i>Open to Work</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(16,185,129,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-code" style="color:var(--green);"></i></div>
+          <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">Full Stack Development</div><div style="color:var(--muted);font-size:13px;">React, Node.js, Java Servlets, REST APIs</div></div>
+        </div>
+        <div class="card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-database" style="color:var(--blue);"></i></div>
+          <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">Database Engineering</div><div style="color:var(--muted);font-size:13px;">MySQL, PostgreSQL, Supabase</div></div>
+        </div>
+        <div class="card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(16,185,129,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-layer-group" style="color:var(--green);"></i></div>
+          <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">Scalable Systems</div><div style="color:var(--muted);font-size:13px;">Inventory, billing, finance management</div></div>
+        </div>
+        <div class="card" style="padding:16px 20px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-users" style="color:var(--blue);"></i></div>
+          <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">Team Collaboration</div><div style="color:var(--muted);font-size:13px;">Git, GitHub, agile workflows</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section fade-in">
+  <div class="section-inner">
+    <div class="section-title">Technical <span class="gradient-text">Skills</span></div>
+    <div class="section-sub">Technologies I work with</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+      <div class="card" style="padding:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="width:34px;height:34px;background:rgba(16,185,129,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-palette" style="color:var(--green);font-size:14px;"></i></div>
+          <span style="font-weight:600;font-size:15px;">Frontend</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge-green">React.js</span><span class="badge-green">JavaScript</span><span class="badge-green">HTML5</span><span class="badge-green">CSS3</span><span class="badge-green">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="width:34px;height:34px;background:rgba(59,130,246,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-server" style="color:var(--blue);font-size:14px;"></i></div>
+          <span style="font-weight:600;font-size:15px;">Backend</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge-green">Node.js</span><span class="badge-green">Java</span><span class="badge-green">Servlets</span><span class="badge-green">REST APIs</span><span class="badge-green">C++</span>
+        </div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="width:34px;height:34px;background:rgba(16,185,129,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-database" style="color:var(--green);font-size:14px;"></i></div>
+          <span style="font-weight:600;font-size:15px;">Databases</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge-green">MySQL</span><span class="badge-green">PostgreSQL</span><span class="badge-green">Supabase</span><span class="badge-green">MongoDB</span>
+        </div>
+      </div>
+      <div class="card" style="padding:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="width:34px;height:34px;background:rgba(59,130,246,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-tools" style="color:var(--blue);font-size:14px;"></i></div>
+          <span style="font-weight:600;font-size:15px;">Tools</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge-green">Git</span><span class="badge-green">GitHub</span><span class="badge-green">VS Code</span><span class="badge-green">Vercel</span><span class="badge-green">Linux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section fade-in" style="background:var(--surface);">
+  <div class="section-inner">
+    <div class="section-title">Experience & <span class="gradient-text">Education</span></div>
+    <div class="section-sub">Where I've studied and contributed</div>
+
+    <!-- Internship -->
+    <div style="display:flex;gap:18px;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <div class="tl-dot"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="card" style="padding:22px;flex:1;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px;">
+          <div>
+            <div style="font-size:17px;font-weight:700;">Frontend Web Dev Intern</div>
+            <div style="color:var(--green);font-size:14px;font-weight:600;margin-top:3px;"><i class="fas fa-building" style="margin-right:5px;"></i>UnitedSOL</div>
+          </div>
+          <span style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);padding:4px 12px;border-radius:20px;font-size:12px;color:#6ee7b7;font-weight:500;">2024</span>
+        </div>
+        <p style="color:var(--muted2);font-size:14px;line-height:1.7;margin-bottom:14px;">Designed responsive interfaces, collaborated using Git and version control, and participated in team-based development. Gained hands-on experience in a real production environment.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge-blue">Responsive UI</span><span class="badge-blue">Git</span><span class="badge-blue">Version Control</span><span class="badge-blue">Team Dev</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SZABIST -->
+    <div style="display:flex;gap:18px;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <div class="tl-dot blue"></div>
+        <div class="tl-line" style="background:linear-gradient(to bottom,var(--blue),transparent);"></div>
+      </div>
+      <div class="card" style="padding:22px;flex:1;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px;">
+          <div>
+            <div style="font-size:17px;font-weight:700;">B.S. Software Engineering</div>
+            <div style="color:var(--blue);font-size:14px;font-weight:600;margin-top:3px;"><i class="fas fa-university" style="margin-right:5px;"></i>SZABIST University, Islamabad</div>
+          </div>
+          <span style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);padding:4px 12px;border-radius:20px;font-size:12px;color:#93c5fd;font-weight:500;">2023 — 2027</span>
+        </div>
+        <p style="color:var(--muted2);font-size:14px;line-height:1.7;margin-bottom:14px;">CGPA: 3.20 — Studying core CS fundamentals alongside practical web engineering, databases, OOP, DSA, and operating systems.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge-blue">Web Engineering</span><span class="badge-blue">OOP</span><span class="badge-blue">DSA</span><span class="badge-blue">Databases</span><span class="badge-blue">OS / Linux</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Islamia -->
+    <div style="display:flex;gap:18px;">
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <div class="tl-dot" style="background:var(--muted);"></div>
+      </div>
+      <div class="card" style="padding:22px;flex:1;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px;">
+          <div>
+            <div style="font-size:17px;font-weight:700;">Intermediate — Computer Science</div>
+            <div style="color:var(--muted2);font-size:14px;font-weight:600;margin-top:3px;"><i class="fas fa-school" style="margin-right:5px;"></i>Islamia College, Peshawar</div>
+          </div>
+          <span style="background:rgba(100,116,139,0.12);border:1px solid rgba(100,116,139,0.25);padding:4px 12px;border-radius:20px;font-size:12px;color:var(--muted2);font-weight:500;">2021 — 2023</span>
+        </div>
+        <p style="color:var(--muted2);font-size:14px;line-height:1.7;">Marks: 910/1100. Won a college coding competition during this period.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section fade-in">
+  <div class="section-inner">
+    <div class="section-title">Featured <span class="gradient-text">Projects</span></div>
+    <div class="section-sub">Things I've built that solve real problems</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+
+      <!-- Budgex -->
+      <div class="proj-card">
+        <div class="proj-icon-wrap" style="background:linear-gradient(135deg,#0d1b2a,#0d1a38);">
+          <div style="text-align:center;">
+            <i class="fas fa-chart-pie" style="font-size:34px;color:var(--blue);display:block;margin-bottom:8px;"></i>
+            <span style="font-size:11px;color:#93c5fd;background:rgba(59,130,246,0.15);padding:3px 10px;border-radius:10px;font-weight:500;">Full Stack Web App</span>
+          </div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px;">Budgex — Business Finance Manager</div>
+          <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:14px;">Full-stack budget and expense manager with 100+ transactions, real-time updates, CRUD operations, and a clean financial tracking dashboard. Deployed on Vercel.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+            <span class="badge-blue">React</span><span class="badge-blue">Node.js</span><span class="badge-blue">Supabase</span><span class="badge-blue">Vercel</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <a href="https://github.com/perbilal" target="_blank" class="btn-outline" style="padding:7px 12px;font-size:12px;flex:1;justify-content:center;"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://budgex-five.vercel.app/" target="_blank" class="btn-primary" style="padding:7px 12px;font-size:12px;flex:1;justify-content:center;"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expense Tracker -->
+      <div class="proj-card">
+        <div class="proj-icon-wrap" style="background:linear-gradient(135deg,#1a1500,#1a2000);">
+          <div style="text-align:center;">
+            <i class="fas fa-receipt" style="font-size:34px;color:#f59e0b;display:block;margin-bottom:8px;"></i>
+            <span style="font-size:11px;color:#fcd34d;background:rgba(245,158,11,0.15);padding:3px 10px;border-radius:10px;font-weight:500;">Auth-Based App</span>
+          </div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px;">Expense Tracker</div>
+          <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:14px;">Full-stack expense tracker with user registration, session-based login, and secure PostgreSQL storage. Tracks income and expenses per user with full CRUD functionality.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+            <span class="badge-blue">Java Servlets</span><span class="badge-blue">PostgreSQL</span><span class="badge-blue">Apache Tomcat</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <a href="https://github.com/perbilal" target="_blank" class="btn-outline" style="padding:7px 12px;font-size:12px;flex:1;justify-content:center;"><i class="fab fa-github"></i> GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sadiq Electric Store IMS -->
+      <div class="proj-card">
+        <div class="proj-icon-wrap" style="background:linear-gradient(135deg,#0d1b15,#0d1f1a);">
+          <div style="text-align:center;">
+            <i class="fas fa-warehouse" style="font-size:34px;color:var(--green);display:block;margin-bottom:8px;"></i>
+            <span style="font-size:11px;color:#6ee7b7;background:rgba(16,185,129,0.15);padding:3px 10px;border-radius:10px;font-weight:500;">Desktop Application</span>
+          </div>
+        </div>
+        <div style="padding:20px;">
+          <div style="font-weight:700;font-size:16px;margin-bottom:8px;">Sadiq Electric Store — IMS</div>
+          <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:14px;">Offline inventory management system built for a retail electronics store. Manages 100+ products with real-time stock updates, billing automation, and reduces manual record-keeping by ~60%.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+            <span class="badge-blue">Java</span><span class="badge-blue">MySQL</span><span class="badge-blue">Desktop</span><span class="badge-blue">CRUD</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <a href="https://github.com/perbilal" target="_blank" class="btn-outline" style="padding:7px 12px;font-size:12px;flex:1;justify-content:center;"><i class="fab fa-github"></i> GitHub</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB -->
+<section id="github" class="section fade-in" style="background:var(--surface);">
+  <div class="section-inner">
+    <div class="section-title">GitHub <span class="gradient-text">Repositories</span></div>
+    <div class="section-sub">Live from github.com/perbilal</div>
+    <div id="repos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+      <div style="grid-column:1/-1;text-align:center;padding:40px 0;">
+        <div class="loader"></div>
+        <p style="color:var(--muted);font-size:14px;margin-top:8px;">Fetching repositories...</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:24px;">
+      <a href="https://github.com/perbilal" target="_blank" class="btn-outline"><i class="fab fa-github"></i> View All on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section id="achievements" class="section fade-in">
+  <div class="section-inner">
+    <div class="section-title">Certificates & <span class="gradient-text">Achievements</span></div>
+    <div class="section-sub">Recognition and credentials earned</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+      <div class="ach-card">
+        <div style="width:42px;height:42px;background:rgba(245,158,11,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-trophy" style="color:#f59e0b;font-size:17px;"></i></div>
+        <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">Coding Competition Winner</div><div style="color:var(--muted);font-size:13px;">Islamia College, Peshawar</div></div>
+      </div>
+      <div class="ach-card">
+        <div style="width:42px;height:42px;background:rgba(59,130,246,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-certificate" style="color:var(--blue);font-size:17px;"></i></div>
+        <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">PostgreSQL: Become an SQL Developer</div><div style="color:var(--muted);font-size:13px;">Simplilearn — Apr 2026</div></div>
+      </div>
+      <div class="ach-card">
+        <div style="width:42px;height:42px;background:rgba(16,185,129,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-database" style="color:var(--green);font-size:17px;"></i></div>
+        <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">SQL and Relational Databases 101</div><div style="color:var(--muted);font-size:13px;">Cognitive Class — May 2025</div></div>
+      </div>
+      <div class="ach-card">
+        <div style="width:42px;height:42px;background:rgba(167,139,250,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fab fa-google" style="color:#a78bfa;font-size:17px;"></i></div>
+        <div><div style="font-weight:600;font-size:14px;margin-bottom:3px;">Google Web Development Fundamentals</div><div style="color:var(--muted);font-size:13px;">Google</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section fade-in" style="background:var(--surface);">
+  <div style="max-width:680px;margin:0 auto;">
+    <div class="section-title" style="text-align:center;">Get In <span class="gradient-text">Touch</span></div>
+    <div class="section-sub" style="text-align:center;">Available for internships, freelance projects, and junior roles</div>
+    <div class="card" style="padding:30px;">
+      <div id="form-msg" style="display:none;padding:11px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;" class="two-col">
+        <input type="text" id="f-name" placeholder="Your Name"/>
+        <input type="email" id="f-email" placeholder="Your Email"/>
+      </div>
+      <input type="text" id="f-subject" placeholder="Subject" style="margin-bottom:12px;"/>
+      <textarea id="f-msg" placeholder="Your message..." rows="5" style="margin-bottom:18px;resize:vertical;"></textarea>
+      <button onclick="sendMsg()" class="btn-primary" style="width:100%;justify-content:center;padding:13px;font-size:15px;"><i class="fas fa-paper-plane"></i> Send Message</button>
+    </div>
+    <div style="display:flex;justify-content:center;gap:20px;margin-top:28px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <a class="social-btn" href="https://github.com/perbilal" target="_blank"><i class="fab fa-github"></i></a>
+        <span style="font-size:12px;color:var(--muted);">GitHub</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <a class="social-btn" href="https://www.linkedin.com/in/hazrat-bilal-780288296/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <span style="font-size:12px;color:var(--muted);">LinkedIn</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <a class="social-btn" href="mailto:hazratbilalhb315471@gmail.com"><i class="fas fa-envelope"></i></a>
+        <span style="font-size:12px;color:var(--muted);">Email</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--border);padding:26px 20px;text-align:center;">
+  <div style="color:var(--muted);font-size:14px;">Built with passion, consistency, and curiosity.</div>
+  <div style="color:var(--border);font-size:13px;margin-top:5px;">© 2025 Hazrat Bilal · Islamabad, Pakistan</div>
+</footer>
+
+<script>
+// ── Terminal animation ──────────────────────────────────────────
+const termLines = [
+  {text:'$ whoami', cls:'t-green'},
+  {text:'hazrat-bilal | full-stack developer', cls:'t-blue'},
+  {text:'$ cat skills.txt', cls:'t-green'},
+  {text:'React · Node.js · Java · PostgreSQL', cls:'t-yellow'},
+  {text:'$ ls projects/', cls:'t-green'},
+  {text:'budgex/  expense-tracker/  inventory-ims/', cls:'t-blue'},
+  {text:'$ git log --oneline', cls:'t-green'},
+  {text:'a1b2c3 feat: deployed budgex on vercel', cls:'t-muted'},
+];
+const termOut = document.getElementById('term-out');
+termLines.forEach((l, i) => {
+  setTimeout(() => {
+    const div = document.createElement('div');
+    div.innerHTML = `<span class="${l.cls}">${l.text}</span>`;
+    termOut.appendChild(div);
+  }, i * 650);
+});
+
+// ── GitHub repos ────────────────────────────────────────────────
+async function loadRepos() {
+  const grid = document.getElementById('repos-grid');
+  try {
+    const res = await fetch('https://api.github.com/users/perbilal/repos?sort=updated&per_page=6');
+    const repos = await res.json();
+    if (!Array.isArray(repos) || repos.length === 0) {
+      grid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1;">No public repos found.</p>';
+      return;
+    }
+    grid.innerHTML = repos.map(r => `
+      <div class="repo-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+          <a href="${r.html_url}" target="_blank" style="font-weight:600;font-size:14px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-book" style="color:var(--green);font-size:12px;"></i>${r.name}
+          </a>
+          <a href="${r.html_url}" target="_blank" style="color:var(--muted);font-size:13px;text-decoration:none;"><i class="fas fa-external-link-alt"></i></a>
+        </div>
+        <p style="color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 12px;min-height:34px;">${r.description || 'No description.'}</p>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted);">
+          ${r.language ? `<span><span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;margin-right:4px;"></span>${r.language}</span>` : ''}
+          <span><i class="fas fa-star" style="color:#f59e0b;margin-right:3px;"></i>${r.stargazers_count}</span>
+          <span style="margin-left:auto;">${new Date(r.updated_at).toLocaleDateString('en',{month:'short',year:'numeric'})}</span>
+        </div>
+      </div>`).join('');
+  } catch {
+    grid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1;">Could not load repos. <a href="https://github.com/perbilal" target="_blank" style="color:var(--green);">View on GitHub →</a></p>';
+  }
+}
+loadRepos();
+
+// ── Contact form ─────────────────────────────────────────────────
+function sendMsg() {
+  const name    = document.getElementById('f-name').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const message = document.getElementById('f-msg').value.trim();
+  const box     = document.getElementById('form-msg');
+  if (!name || !email || !message) {
+    box.style.cssText = 'display:block;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;padding:11px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;';
+    box.textContent = 'Please fill in all required fields.';
+    return;
+  }
+  box.style.cssText = 'display:block;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;padding:11px 14px;border-radius:8px;margin-bottom:14px;font-size:14px;';
+  box.textContent = 'Message sent! Hazrat will get back to you soon.';
+  ['f-name','f-email','f-subject','f-msg'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ── Mobile menu ──────────────────────────────────────────────────
+function toggleMenu() { document.getElementById('mob-menu').classList.toggle('open'); }
+function closeMenu()  { document.getElementById('mob-menu').classList.remove('open'); }
+
+// ── Scroll fade-in ───────────────────────────────────────────────
+const observer = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
